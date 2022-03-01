@@ -21,10 +21,11 @@ $ mkdir data, saved_models
 $ CUDA_VISIBLE_DEVICES=0 python main.py --model WA-BERT --dataset mosi
 ```
 in the command line. In addition, you can also change command line arguments to train different models on different datasets
+
 run the code with:
 ```
 $ CUDA_VISIBLE_DEVICES=0 python bert_classifier.py --dataset mosi
 ```
-This will only use text to classify sentiment
+This will only use text to classify the sentiment.
 # Acknowledge
-We acknowledge [this great repository](https://github.com/WasifurRahman/BERT_multimodal_transformer) for reference
+We acknowledge [this great repository](https://github.com/WasifurRahman/BERT_multimodal_transformer) for reference.
