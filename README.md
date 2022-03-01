@@ -27,4 +27,4 @@ $ CUDA_VISIBLE_DEVICES=0 python bert_classifier.py --dataset mosi
 ```
 This will only use text to classify sentiment
 # Acknowledge
-We acknowledge [this great repository](https:https://github.com/WasifurRahman/BERT_multimodal_transformer) for reference
+We acknowledge [this great repository](https://github.com/WasifurRahman/BERT_multimodal_transformer) for reference
