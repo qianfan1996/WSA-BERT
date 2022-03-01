@@ -5,8 +5,6 @@ import random
 import torch
 
 def set_random_seed(seed):
-	print("Random Seed: {}".format(seed))
-
 	torch.backends.cudnn.benchmark = False
 	torch.backends.cudnn.enabled = False
 	torch.backends.cudnn.deterministic = True

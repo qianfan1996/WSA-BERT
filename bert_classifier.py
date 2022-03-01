@@ -31,7 +31,7 @@ parser.add_argument("--backbone_model", type=str, default="bert-base-uncased")
 parser.add_argument("--learning_rate", type=float, default=1e-5)
 parser.add_argument("--gradient_accumulation_step", type=int, default=1)
 parser.add_argument("--warmup_proportion", type=float, default=0.1)
-parser.add_argument("--seed", type=int, default=5862)
+parser.add_argument("--seed", type=int, default=666)
 
 args = parser.parse_args()
 

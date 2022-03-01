@@ -23,7 +23,7 @@ from load_data import load_pkl
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", type=str, choices=["mosi", "mosei"], default="mosi")
-parser.add_argument("--model", type=str, choices=["WM-BERT", "MAG-BERT"],default="WM-BERT")
+parser.add_argument("--model", type=str, choices=["MAG-BERT", "WA-BERT", "WSA-BERT"], default="WA-BERT")
 parser.add_argument("--max_words_length", type=int, default=50)
 parser.add_argument("--train_batch_size", type=int, default=48)
 parser.add_argument("--valid_batch_size", type=int, default=128)
@@ -35,7 +35,7 @@ parser.add_argument("--backbone_model", type=str, default="bert-base-uncased")
 parser.add_argument("--learning_rate", type=float, default=1e-5)
 parser.add_argument("--gradient_accumulation_step", type=int, default=1)
 parser.add_argument("--warmup_proportion", type=float, default=0.1)
-parser.add_argument("--seed", type=int, default=5862)
+parser.add_argument("--seed", type=int, default=666)
 
 args = parser.parse_args()
 
@@ -304,16 +304,20 @@ def train(
         if valid_loss < max_valid_loss:
             max_valid_loss = valid_loss
             print('Saving model ...')
-            if args.model == "WM-BERT":
-                torch.save(model, 'saved_models/WM-BERT_{}.pt'.format(args.dataset))
-            else:
+            if args.model == "WA-BERT":
+                torch.save(model, 'saved_models/WA-BERT_{}.pt'.format(args.dataset))
+            elif args.model == "MAG-BERT":
                 torch.save(model, 'saved_models/MAG-BERT_{}.pt'.format(args.dataset))
+            else:
+                torch.save(model, 'saved_models/WSA-BERT_{}.pt'.format(args.dataset))
 
 
-    if args.model == "WM-BERT":
-        model = torch.load('saved_models/WM-BERT_{}.pt'.format(args.dataset))
-    else:
+    if args.model == "WA-BERT":
+        model = torch.load('saved_models/WA-BERT_{}.pt'.format(args.dataset))
+    elif args.model == "MAG-BERT":
         model = torch.load('saved_models/MAG-BERT_{}.pt'.format(args.dataset))
+    else:
+        model = torch.load('saved_models/WSA-BERT_{}.pt'.format(args.dataset))
 
     test_acc, test_mae, test_corr, test_f_score = test_score_model(model, test_dataloader)
     print("Accuracy: {}, MAE: {}, Corr: {}, F1_score: {}".format(test_acc, test_mae, test_corr, test_f_score))

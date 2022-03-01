@@ -1,0 +1,5 @@
+data/
+__pycache__/
+saved_models/
+venv/
+.idea/

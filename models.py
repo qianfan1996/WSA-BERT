@@ -7,11 +7,11 @@ from torch.nn import CrossEntropyLoss, MSELoss
 from transformers.modeling_bert import BertPreTrainedModel
 from transformers.modeling_bert import BertEmbeddings, BertEncoder, BertPooler
 
-from modules import MAG, WM
+from modules import MAG, WA, WSA
 
 
 class BertModel(BertPreTrainedModel):
-    def __init__(self, config, multimodal_config, model="WM-BERT"):
+    def __init__(self, config, multimodal_config, model="WA-BERT"):
         super().__init__(config)
         self.config = config
 
@@ -21,10 +21,12 @@ class BertModel(BertPreTrainedModel):
 
         self.model = model
 
-        if self.model == "WM-BERT":
-            self.WM = WM(config.hidden_size, multimodal_config.beta_shift, multimodal_config.dropout_prob)
-        else:
+        if self.model == "WA-BERT":
+            self.WA = WA(config.hidden_size, multimodal_config.beta_shift, multimodal_config.dropout_prob)
+        elif self.model == "MAG-BERT":
             self.MAG = MAG(config.hidden_size, multimodal_config.beta_shift, multimodal_config.dropout_prob)
+        else:
+            self.WSA = WSA(config.hidden_size, multimodal_config.beta_shift, multimodal_config.dropout_prob)
 
         self.init_weights()
 
@@ -125,11 +127,13 @@ class BertModel(BertPreTrainedModel):
             inputs_embeds=inputs_embeds,
         )
 
-        # Early fusion with MAG/WM
-        if self.model == "WM-BERT":
-            fused_embedding = self.WM(embedding_output, visual, acoustic)
-        else:
+        # Early fusion with MAG/WA/WSA, that is, r=0
+        if self.model == "WA-BERT":
+            fused_embedding = self.WA(embedding_output, visual, acoustic)
+        elif self.model == "MAG-BERT":
             fused_embedding = self.MAG(embedding_output, visual, acoustic)
+        else:
+            fused_embedding = self.WSA(embedding_output, visual, acoustic)
 
         encoder_outputs = self.encoder(
             fused_embedding,
@@ -148,7 +152,7 @@ class BertModel(BertPreTrainedModel):
 
 
 class BertForSequenceClassification(BertPreTrainedModel):
-    def __init__(self, config, multimodal_config, model="WM-BERT"):
+    def __init__(self, config, multimodal_config, model="WA-BERT"):
         super().__init__(config)
         self.num_labels = config.num_labels
 
