@@ -15,7 +15,7 @@ $ git clone https://github.com/qianfan1996/WSA-BERT.git
 ```
 $ mkdir data, saved_models
 ```
-## put CMU-MOSI and CMU-MOSEI datasets into data/ directory
+## Put CMU-MOSI and CMU-MOSEI datasets into data/ directory
 ## You can run the code with:
 ```
 $ CUDA_VISIBLE_DEVICES=0 python main.py --model WA-BERT --dataset mosi
@@ -23,6 +23,6 @@ $ CUDA_VISIBLE_DEVICES=0 python main.py --model WA-BERT --dataset mosi
 you can also change command line arguments to train different models on different datasets
 run the code with:
 ```
-$ CUDA_VISIBLE_DEVICES=0 python bert_classifier.py --model mosi
+$ CUDA_VISIBLE_DEVICES=0 python bert_classifier.py --dataset mosi
 ```
 This will only use text to classify sentiment
